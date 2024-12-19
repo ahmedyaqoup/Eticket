@@ -1,0 +1,55 @@
+﻿<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-6 mb-3">
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-header">@item.Name</h3>
+                </div>
+                <div class="card-body">
+                    <div class="left">
+                        <img src="~/images/movies/@item.ImgUrl" height="50%" width="30%" alt="">
+
+                    </div>
+                    <div class="">
+                        <p><strong>Price:</strong><span class="badge text-bg-warning">@item.Price</span></p>
+                        <p>Cinema:<a href="/Cinema/AllMovies?id=@item.Cinema.Id">@item.Cinema.Name</a></p>
+                        <p><strong>Start Date:</strong>@item.StartDate</p>
+                        <p><strong>End Date:</strong>@item.EndDate</p>
+                        <p> Category:<a href="/Category/AllMovies?id=@item.Category.Id">@item.Category.Name</a></p>
+
+                        @if (item.MovieStatus == Eticket.Data.Enum.MovieStatus.Upcoming)
+                        {
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary ">@item.MovieStatus</span>
+
+                            </div>
+                        }
+                        @if (item.MovieStatus == Eticket.Data.Enum.MovieStatus.Available)
+                        {
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-success">@item.MovieStatus</span>
+
+                            </div>
+                        }
+                        @if (item.MovieStatus == Eticket.Data.Enum.MovieStatus.Expired)
+                        {
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-danger">@item.MovieStatus</span>
+
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="https://localhost:7185/Home/Details?id=@item.Id" class="btn btn-primary">More Details...</a>
+                    <a href="#" class="btn btn-success">Book Tickets...</a>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

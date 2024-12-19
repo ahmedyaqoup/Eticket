@@ -1,0 +1,81 @@
+﻿
+
+﻿
+
+
+
+<div>
+    <a href="/Actor/Create" class="btn btn-primary">
+         Create Actor
+    </a>
+</div>
+
+
+
+<div class="container" style="width:800px">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-3 border mb-2">
+                <a href="/Actor/DetailsActor/@item.Id"> <img src="~/images/cast/@item.ProfilePicture" /> </a>
+                <p>@item.FirstName  @item.LastName</p>
+                <a href="/Actor/Delete/@item.Id" class="btn btn-danger" onclick="return confirmDelete()">
+                    Delete
+                    <i class="bi bi-trash"></i>
+                </a>
+                <a href="/Actor/Edit/@item.Id" class="btn btn-secondary"> Edit <i class="bi bi-gear"></i> </a>
+
+            </div>
+        }
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this item: <span id="itemTitle"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" action="">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const itemId = this.getAttribute("data-id");
+                const itemTitle = this.getAttribute("data-title");
+                const deleteForm = document.getElementById('deleteForm');
+                const itemTitleElement = document.getElementById('itemTitle');
+
+                // Update the modal content
+                itemTitleElement.textContent = itemTitle;
+                deleteForm.action = `/TodoItems/Delete?personId=${itemId}`;
+
+                // Show the modal
+                $('#deleteModal').modal('show');
+            });
+        });
+    });
+</script>

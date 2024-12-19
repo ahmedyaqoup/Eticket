@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Eticket.Models.Cinema>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Cinemas</h1>
+<div>
+    <a href="/Cinema/Create" class="btn btn-warning">
+        Create New 
+    </a>
+
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    <a href="/Cinema/AllMovies?id=@item.Id" class="btn btn-primary">All Movies</a>|
+                    <a href="/Cinema/Edit/@item.Id" class="btn btn-secondary">Edit</a>|
+                    <a href="/Cinema/Delete/@item.Id" class="btn btn-danger">Delete</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

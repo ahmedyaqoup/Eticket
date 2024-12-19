@@ -1,0 +1,114 @@
+﻿@using Eticket.Data.Enum
+
+@model Movie
+
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Movie</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+
+                <input type="hidden" asp-for="Id" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="ImgUrl" class="control-label"></label>
+                <input type="file" name="file" asp-for="ImgUrl" class="form-control" onchange="previewImage(event)" value="@Model.ImgUrl" />
+                <span asp-validation-for="ImgUrl" class="text-danger"></span>
+            </div>
+
+            <!-- Image Preview -->
+            <div class="form-group">
+                <img id="imgPreview" src="~/images/movies/@Model.ImgUrl" alt="Image Preview" style="max-width: 20%; height: auto; display: none;" />
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="TrailerUrl" class="control-label"></label>
+                <input asp-for="TrailerUrl" class="form-control" />
+                <span asp-validation-for="TrailerUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieStatus" class="control-label"></label>
+                <select asp-for="MovieStatus" class="form-control">
+                    @foreach (var item in Enum.GetValues(typeof(MovieStatus)))
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+
+                <span asp-validation-for="MovieStatus" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cinema" class="control-label"></label>
+                <select asp-for="CinemaId" class="form-control">
+                    @foreach (var item in ViewBag.Cinema)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var item in ViewBag.Category)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label"> Actors</label>
+                <select name="ActorId" class="form-control" multiple>
+                    @foreach (var item in ViewBag.Actor)
+                    {
+                        <option value="@item.Id">@item.FirstName @item.LastName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
