@@ -1,6 +1,8 @@
 using Eticket.Data;
+using Eticket.Models;
 using Eticket.Repository;
 using Eticket.Repository.IRepository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eticket
@@ -15,6 +17,10 @@ namespace Eticket
             builder.Services.AddDbContext<ApplicationDbcontext>(
                option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                );
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+           .AddEntityFrameworkStores<ApplicationDbcontext>()
+           .AddDefaultTokenProviders();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
