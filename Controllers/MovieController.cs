@@ -1,11 +1,13 @@
 ﻿using Eticket.Models;
 using Eticket.Repository;
 using Eticket.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Eticket.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MovieController : Controller
     {
         private readonly IMovieRepository movieRepository;
@@ -23,11 +25,14 @@ namespace Eticket.Controllers
             this.actorRepository = actorRepository;
             
         }
-        public IActionResult Index()
+        [AllowAnonymous]
+        public IActionResult Index(int page=1)
         {
             var movies=movieRepository.Get(includeProps: [e => e.Category, e => e.Cinema]).ToList();
+            movies=movies.Skip((page-1)*8).Take(8).ToList();       
             return View(movies);
         }
+       
         public IActionResult Create()
         {
             var categories = categoryRepository.Get().ToList();

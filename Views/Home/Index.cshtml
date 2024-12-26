@@ -1,4 +1,10 @@
-﻿<div class="row">
+﻿
+<form class="d-flex col-4  " asp-action="Search" asp-controller="Home" >
+    <input class="form-control me-sm-2" type="text" name="name" placeholder="Search">
+    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+<div class="row mt-3" >
     @foreach (var item in Model)
     {
         <div class="col-6 mb-3">
@@ -52,4 +58,31 @@
         </div>
 
     }
+</div>
+
+
+<div class="text-center">
+    <ul class="pagination">
+        <li class="page-item disabled">
+            <a class="page-link" href="https://localhost:7185/Home/Index?page=page-1">&laquo;</a>
+        </li>
+        <li class="page-item ">
+            <a class="page-link" href="https://localhost:7185/Home/Index?page=1">1</a>
+        </li>
+        <li class="page-item ">
+            <a class="page-link" href="https://localhost:7185/Home/Index?page=2">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="https://localhost:7185/Home/Index?page=3">3</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="https://localhost:7185/Home/Index?page=4">4</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="https://localhost:7185/Home/Index?page=5">5</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="https://localhost:7185/Home/Index?page=page+1">&raquo;</a>
+        </li>
+    </ul>
 </div>

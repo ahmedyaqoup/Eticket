@@ -20,9 +20,11 @@ namespace Eticket.Controllers
            
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page=1)
         {
-            var movie = movieRepository.Get(includeProps: [e=>e.Category,e=>e.Cinema]).ToList(); 
+            var movie = movieRepository.Get(includeProps: [e=>e.Category,e=>e.Cinema]).ToList();
+            movie = movie.Skip((page - 1) * 10).Take(10).ToList();
+
             return View(movie);
         }
 

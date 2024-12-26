@@ -1,10 +1,12 @@
 ﻿using Eticket.Models;
 using Eticket.Repository;
 using Eticket.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Eticket.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ActorController : Controller
     {
         private readonly IActorRepository actorRepository;
@@ -15,12 +17,13 @@ namespace Eticket.Controllers
             this.actorRepository = actorRepository;
             this.movieRepository = movieRepository;
         }
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var actor=actorRepository.Get().ToList();
             return View(actor);
         }
-
+        [AllowAnonymous]
         public IActionResult DetailsActor(int id)
         {
             var actor = actorRepository.GetOne(e => e.Id == id);

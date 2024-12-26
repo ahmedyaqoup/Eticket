@@ -2,11 +2,13 @@
 using Eticket.Models;
 using Eticket.Repository;
 using Eticket.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eticket.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CinemaController : Controller
     {
         private readonly ICinemaRepository cinemaRepository;
@@ -17,12 +19,12 @@ namespace Eticket.Controllers
             this.cinemaRepository = cinemaRepository;
             this.movieRepository = movieRepository;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             return View(cinemaRepository.Get().ToList());
         }
-
+        [AllowAnonymous]
         public IActionResult AllMovies(int id)
         {
             var movie = movieRepository.Get(filter: e => e.CinemaId == id, includeProps: [e=>e.Cinema, e => e.Category]).ToList();

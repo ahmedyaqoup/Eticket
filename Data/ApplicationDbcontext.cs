@@ -12,6 +12,7 @@ namespace Eticket.Data
         public DbSet<Actor> actors { get; set; }
         public DbSet<Category> categories { get; set; }
         public DbSet<Cinema> cinemas { get; set; }
+        public DbSet<Cart> carts { get; set; }
 
         public ApplicationDbcontext(DbContextOptions<ApplicationDbcontext> options)
            : base(options)

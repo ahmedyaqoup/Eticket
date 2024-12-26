@@ -1,4 +1,13 @@
 ﻿@model IEnumerable<Eticket.Models.Cinema>
+@section Scripts {
+    @if (TempData["success"] != null)
+    {
+        <script>
+            toastr.success('@TempData["success"]');
+        </script>
+    }
+}
+
 
 @{
     ViewData["Title"] = "Index";

@@ -10,6 +10,7 @@ namespace Eticket.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        //private ApplicationUser user;
 
         public AccountController(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager) 
         {
@@ -17,8 +18,15 @@ namespace Eticket.Controllers
             this.signInManager = signInManager;
             this.roleManager = roleManager;
         }
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
+            if (!roleManager.Roles.Any())
+            {
+                await roleManager.CreateAsync(new("Admin"));
+                await roleManager.CreateAsync(new("Cinema"));
+                await roleManager.CreateAsync(new("Customer"));
+            }
+            //await userManager.AddToRoleAsync(user, "Admin");
             return View();
         }
         [HttpPost]
@@ -31,14 +39,14 @@ namespace Eticket.Controllers
                     UserName = userVM.UserName,
                     Email = userVM.Email,
                     Address = userVM.Address,
-                    Name = userVM.Name,
+                    Name = userVM.Name
                 };
 
                   var result=await userManager.CreateAsync(user,userVM.Password);
 
                 if (result.Succeeded)
                 {
-                    //await userManager.AddToRoleAsync(user, "Customer");
+                    await userManager.AddToRoleAsync(user, "Customer");
                     await signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
 
@@ -89,6 +97,43 @@ namespace Eticket.Controllers
 
             return View(loginVM);
         }
+         
+        
+        public IActionResult Profile()
+        {
+
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public IActionResult Logout()
         {

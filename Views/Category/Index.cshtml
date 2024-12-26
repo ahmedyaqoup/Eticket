@@ -1,8 +1,21 @@
 ﻿@model IEnumerable<Eticket.Models.Category>
 
+@section Scripts {
+    @if (TempData["success"] != null)
+    {
+        <script>
+            toastr.success('@TempData["success"]');
+        </script>
+    }
+}
+
+
+
 @{
     ViewData["Title"] = "Index";
 }
+
+
 
 <h1>Categories</h1>
 
