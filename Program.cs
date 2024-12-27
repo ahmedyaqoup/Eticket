@@ -2,8 +2,10 @@ using Eticket.Data;
 using Eticket.Models;
 using Eticket.Repository;
 using Eticket.Repository.IRepository;
+using Eticket.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace Eticket
 {
@@ -25,11 +27,16 @@ namespace Eticket
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
             builder.Services.AddScoped<IMovieRepository, MovieRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICinemaRepository ,CinemaRepository>();
             builder.Services.AddScoped<IActorRepository, ActorRepository>();
-            
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
 
             var app = builder.Build();
 

@@ -64,5 +64,11 @@ namespace Eticket.Repository
         {
             return Get(filter,includeProps,tracked).FirstOrDefault();
         }
+
+        public void Commit()
+        {
+            _dbContext.SaveChanges();
+
+        }
     }
 }

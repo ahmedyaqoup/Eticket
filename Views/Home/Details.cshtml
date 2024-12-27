@@ -66,10 +66,16 @@
 
             </div>
 
+            <form asp-action="AddToCart" asp-controller="Cart" class="d-flex">
+                <input type="hidden" name="movieId" value="@Model.Id" />
+                <input type="number" name="Count" class="form-control mx-2" placeholder="Count">
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+
 
             <div class="card-footer">
 
-                <a href="#" class="btn btn-success">Book Tickets...</a>
+                <a href="/Cart/Index" class="btn btn-success">Book Tickets...</a>
             </div>
         </div>
     </div>

@@ -1,4 +1,15 @@
-﻿
+﻿@section Scripts {
+    @if (TempData["success"] != null)
+    {
+        <script>
+            toastr.success('@TempData["success"]');
+        </script>
+    }
+}
+
+
+
+
 <form class="d-flex col-4  " asp-action="Search" asp-controller="Home" >
     <input class="form-control me-sm-2" type="text" name="name" placeholder="Search">
     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
@@ -52,7 +63,7 @@
                 </div>
                 <div class="card-footer">
                     <a href="https://localhost:7185/Home/Details?id=@item.Id" class="btn btn-primary">More Details...</a>
-                    <a href="#" class="btn btn-success">Book Tickets...</a>
+                    <a href="/Cart/Index" class="btn btn-success">Book Tickets...</a>
                 </div>
             </div>
         </div>

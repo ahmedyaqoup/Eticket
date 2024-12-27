@@ -97,12 +97,61 @@ namespace Eticket.Controllers
 
             return View(loginVM);
         }
-         
-        
-        public IActionResult Profile()
-        {
 
-            return View();
+
+        public async Task<IActionResult> Profile()
+        {
+            var user = await userManager.GetUserAsync(User);
+            return View(model: new ApplicationUserVM()
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                Name = user.Name,
+                Address = user.Address
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(ApplicationUserVM userVM)
+        {
+            var user = await userManager.GetUserAsync(User);
+            user.UserName = userVM.UserName;
+            user.Email = userVM.Email;
+            user.Name = userVM.Name;
+            user.Address = userVM.Address;
+
+            await userManager.UpdateAsync(user);
+            TempData["success"] = "تم تحديث البيانات بنجاح";
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> updatePhoto(IFormFile photo)
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            if (photo != null && photo.Length > 0)
+            {
+                // Genereate name
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+
+                // Save in wwwroot
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", fileName);
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    photo.CopyTo(stream);
+                }
+
+                // Save in db
+                user.photo = fileName;
+                await userManager.UpdateAsync(user);
+            }
+
+            TempData["success"] = "تم تحديث البيانات بنجاح";
+
+            return RedirectToAction("Index", "Home");
         }
 
 

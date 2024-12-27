@@ -1,0 +1,60 @@
+﻿
+@model Eticket.Models.ViewModels.ApplicationUserVM
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManeger
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>Profile</h1>
+
+<h4>ApplicationUserVM</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Profile">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <img src="~/images/@UserManeger.GetUserAsync(User).Result.photo" />
+        <form action="updatePhoto" method="post" enctype="multipart/form-data">
+            <input type="file" name="photo" value="" class="form-control">
+            <input type="submit" value="Update Photo" class="btn btn-primary">
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ChanegePassword">Chanege password</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
