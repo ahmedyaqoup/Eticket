@@ -1,5 +1,6 @@
 ﻿using Eticket.Models;
 using Eticket.Models.ViewModels;
+using Eticket.Repository;
 using Eticket.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -43,14 +44,26 @@ namespace Eticket.Controllers
         public IActionResult Decrement(int movieId)
         {
             var cart = cartRepository.GetOne(filter: e => e.ApplicationUserId == userManager.GetUserId(User) && e.MovieId == movieId);
-
-            cart.Count--;
-            cartRepository.Commit();
+            if (cart.Count > 1)
+            {
+                cart.Count--;
+                cartRepository.Commit();
+            }
 
             return RedirectToAction("Index");
         }
+        public ActionResult Delete(int movieId)
+        {
+            var movie = cartRepository.GetOne(filter: e => e.MovieId == movieId);
+            cartRepository.Delete(movie);
+
+            return RedirectToAction("Index", "Cart");
+        }
+
+
+
         [HttpPost]
-        public IActionResult AddToCart(int Count,int movieId)
+        public IActionResult AddToCart(int movieId, int Count=1  )
         {
             var userId = userManager.GetUserId(User);
 
