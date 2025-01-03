@@ -46,23 +46,23 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Cinema" asp-action="Index">Cinemas</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Index">Movies</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Actor" asp-action="Index">Actors</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">User</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">User</a>
+                                    
                                 </div>
 
                             </li>
                         }
 
-                        <a class="btn" href="/Cart/Index"><i class="bi bi-cart4 bg-black"></i></a>
+                        <a class="btn" href="/Cart/Index"><i class="bi bi-cart4 bg-light"></i></a>
 
                     </ul>
 
-                        <ul class="navbar-nav ">
+                        <ul class="navbar-nav " >
 
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Profile"><img src="~/images/@UserManeger.GetUserAsync(User).Result.photo" width="25px" /> Welcome @User.Identity.Name</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Profile"><img src="~/images/@UserManeger.GetUserAsync(User).Result.photo" width="20px" /> Welcome @User.Identity.Name</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>

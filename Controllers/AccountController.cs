@@ -2,6 +2,7 @@
 using Eticket.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace Eticket.Controllers
 {
@@ -77,6 +78,11 @@ namespace Eticket.Controllers
 
                 if (appUserWithEmail != null || appUserWithUserName != null)
                 {
+                    if (await userManager.IsLockedOutAsync(appUserWithEmail ?? appUserWithUserName))
+                    {
+                        ModelState.AddModelError(string.Empty, "This account has been blocked.");
+                        return View(loginVM);
+                    }
                     var result = await userManager.CheckPasswordAsync(appUserWithEmail ?? appUserWithUserName, loginVM.Password);
 
                     if (result)
@@ -152,6 +158,80 @@ namespace Eticket.Controllers
             TempData["success"] = "تم تحديث البيانات بنجاح";
 
             return RedirectToAction("Index", "Home");
+        }
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(EmailVM userEmail)
+        {
+            if (ModelState.IsValid)
+            {
+                var appUserithEmail = await userManager.FindByEmailAsync(userEmail.Account);
+                var appUserithName = await userManager.FindByNameAsync(userEmail.Account);
+                if (appUserithEmail != null || appUserithName != null)
+                {
+
+                    return RedirectToAction("ChangeForgottenPassword", "Account", new { acc = userEmail.Account });
+                }
+                else
+                {
+                    ModelState.AddModelError("Account", "This Account Dosn't Exist");
+                }
+
+            }
+
+            return View(userEmail);
+
+        }
+        [HttpGet]
+        public IActionResult ChangeForgottenPassword(string acc)
+        {
+            ViewBag.Email = acc;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeForgottenPassword(ForgetPassordVM ForgetPassordVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var appUserithEmail = await userManager.FindByEmailAsync(ForgetPassordVM.Account);
+                var appUserithName = await userManager.FindByNameAsync(ForgetPassordVM.Account);
+
+                await userManager.RemovePasswordAsync(appUserithEmail ?? appUserithName);
+                await userManager.AddPasswordAsync(appUserithEmail ?? appUserithName, ForgetPassordVM.Password);
+                TempData["success"] = "Password has been changed successfully";
+                return RedirectToAction("Index", "Home");
+            }
+            return View(ForgetPassordVM);
+        }
+
+        public async Task<IActionResult> ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordVM changePasswordVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var appUser = await userManager.FindByIdAsync(userManager.GetUserId(User));
+
+                var result = await userManager.ChangePasswordAsync(appUser, changePasswordVM.OldPassword, changePasswordVM.NewPassword);
+                if (result.Succeeded)
+                {
+                    TempData["success"] = "The password has changed correctlly";
+                    return RedirectToAction("Index", "Home");
+
+                }
+                ModelState.AddModelError(string.Empty, "there is some thing wrong ");
+            }
+            return View(changePasswordVM);
+
+
         }
 
 

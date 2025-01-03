@@ -26,6 +26,7 @@ namespace Eticket.Data
         }
         public DbSet<Eticket.Models.ViewModels.ApplicationUserVM> ApplicationUserVM { get; set; } = default!;
         public DbSet<Eticket.Models.ViewModels.LoginVM> LoginVM { get; set; } = default!;
+        public DbSet<Eticket.Models.ViewModels.AddUserToRoleVM> AddUserToRoleVM { get; set; } = default!;
 
     }
 }

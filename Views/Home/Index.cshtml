@@ -62,8 +62,22 @@
                     </div>
                 </div>
                 <div class="card-footer">
+                    @if (item.MovieStatus == Eticket.Data.Enum.MovieStatus.Upcoming)
+                    {
+                        <a  class="btn btn-info">Book Tickets...</a>
+                        
+                    }
+                    @if (item.MovieStatus == Eticket.Data.Enum.MovieStatus.Available)
+                    {
+                        <a href="/Cart/Index" class="btn btn-success">Book Tickets...</a>
+                    }
+                    @if (item.MovieStatus == Eticket.Data.Enum.MovieStatus.Expired)
+                    {
+                        <a  class="btn btn-info">Book Tickets...</a>
+                       
+                    }
                     <a href="https://localhost:7185/Home/Details?id=@item.Id" class="btn btn-primary">More Details...</a>
-                    <a href="/Cart/Index" class="btn btn-success">Book Tickets...</a>
+                    
                 </div>
             </div>
         </div>
@@ -92,7 +106,7 @@
         <li class="page-item">
             <a class="page-link" href="https://localhost:7185/Home/Index?page=5">5</a>
         </li>
-        <li class="page-item">
+        <li class="page-item disabled">
             <a class="page-link" href="https://localhost:7185/Home/Index?page=page+1">&raquo;</a>
         </li>
     </ul>

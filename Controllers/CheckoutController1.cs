@@ -21,5 +21,7 @@ namespace Eticket.Controllers
             await emailSender.SendEmailAsync(await userManager.GetEmailAsync(user), "Success pay", "تم الدفع بنجاح");
             return RedirectToAction("Index","Home");
         }
+
+
     }
 }
